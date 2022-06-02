@@ -15,22 +15,83 @@
 
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
+
+
+
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  	<DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Uno.WinUI" Version="4.3.8" />
   </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
     <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.24" />
     <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='net6.0-windows10.0.18362'">
-    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-    <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
+
+  <!-- BLANKET PAGE AND COMPILE -->
+  <ItemGroup>
+    <Compile Include="**\*.shared.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.shared.*.cs" Exclude="$(DefaultItemExcludes)" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <UpToDateCheckInput Include="**\*.shared.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.shared.*.cs" Exclude="$(DefaultItemExcludes)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\P42.Utils\P42.Utils.Uno\P42.Utils.Uno.csproj" />
+    <ProjectReference Include="..\P42.Utils\P42.Utils\P42.Utils.csproj" />
+  </ItemGroup>
+
+  <!-- ANDROID -->
+  <ItemGroup Condition=" $(TargetFramework.Contains('droid')) ">
+    <Compile Include="**\*.android.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.android.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.android.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.android.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <AndroidResource Include="Resources\xml\*.xml" />
+  </ItemGroup>
+
+  <!-- IOS -->
+  <ItemGroup Condition=" $(TargetFramework.Contains('ios')) ">
+    <Compile Include="**\*.ios.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.ios.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.ios.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.ios.*.cs" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
+
+  <!-- MACOS -->
+  <ItemGroup Condition=" $(TargetFramework.Contains('macos')) ">
+    <Compile Include="**\*.macos.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.macos.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.macos.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.macos.*.cs" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
+
+  <!-- UWP -->
+  <ItemGroup Condition=" $(TargetFramework.Contains('windows10.0')) ">
+    <PackageReference Include="Win2D.uwp" Version="1.26.0" />
+    <Compile Include="**\*.uwp.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.uwp.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.uwp.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.uwp.*.cs" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
+
+  <!-- WASM -->
+  <ItemGroup Condition=" $(TargetFramework.Contains('netstandard'))">
+    <PackageReference Include="Uno.WinUI.Runtime.WebAssembly" Version="4.3.6" />
+    <PackageReference Include="Uno.WinUI.Lottie" Version="4.3.6" />
+    <PackageReference Include="Uno.WinUI.Runtime.WebAssembly" Version="4.3.6" />
+    <Compile Include="**\*.wasm.cs" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="**\*.wasm.*.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.wasm.cs" Exclude="$(DefaultItemExcludes)" />
+    <UpToDateCheckInput Include="**\*.wasm.*.cs" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
+
+
 </Project>
