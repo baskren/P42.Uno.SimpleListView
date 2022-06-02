@@ -1,0 +1,36 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0-ios;net6.0-macos;net6.0-maccatalyst;net6.0-android</TargetFrameworks>
+	  <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net6.0-windows10.0.18362;netstandard2.0;net6.0-ios;net6.0-macos;net6.0-maccatalyst;net6.0-android</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.Droid')) ">net6.0-android</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.iOS')) ">net6.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.macOS')) ">net6.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.MacCatalyst')) ">net6.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.GtK')) ">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.WPF')) ">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.UWP')) ">net6.0-windows10.0.18362</TargetFrameworks>
+    <TargetFrameworks Condition=" $(SolutionName.Contains('.Wasm')) ">netstandard2.0</TargetFrameworks>
+
+
+
+    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.WinUI" Version="4.3.8" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.24" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'!='net6.0-windows10.0.18362'">
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+</Project>

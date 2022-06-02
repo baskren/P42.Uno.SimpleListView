@@ -1,0 +1,10 @@
+is_global = true
+build_property.TargetFramework = net6.0-windows10.0.18362
+build_property.TargetPlatformMinVersion = 10.0.18362.0
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = P42.Uno.SimpleListView
+build_property.ProjectDir = C:\Users\ben\Development\Uno\P42.Uno.SimpleListView\P42.Uno.SimpleListView\
